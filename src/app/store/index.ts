@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import gameSettingsReducer from '../features/gameSettingsSlice';
 import gameStatSliceReducer from '../features/gameStatSlice';
-import createSagaMiddleware from 'redux-saga';
+// import createSagaMiddleware from 'redux-saga';
 
 export const store = configureStore({
   reducer: {

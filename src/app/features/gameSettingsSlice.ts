@@ -4,8 +4,8 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import {
   CheckMarkValue,
   BoardDemension,
-  WinPoints,
   GameSettings,
+  Difficulty,
 } from './interfaces';
 
 const INITIAL_STATE: GameSettings = {
@@ -15,7 +15,7 @@ const INITIAL_STATE: GameSettings = {
   },
   player: CheckMarkValue.O,
   computer: CheckMarkValue.X,
-  winPoints: 3,
+  computerLevel: Difficulty.Easy,
 };
 
 export const gameSettingsSlice = createSlice({
@@ -28,14 +28,22 @@ export const gameSettingsSlice = createSlice({
     setPlayerSymbol: (state, action: PayloadAction<CheckMarkValue>) => {
       state.player = action.payload;
     },
-    setWinPoints: (state, action: PayloadAction<WinPoints>) => {
-      state.winPoints = action.payload;
+    setPlayerMove: (state, action: PayloadAction<CheckMarkValue>) => {
+      state.player = action.payload;
+      if (action.payload === CheckMarkValue.O) {
+        state.computer = CheckMarkValue.X;
+      } else {
+        state.computer = CheckMarkValue.O;
+      }
+    },
+    setComputerLevel: (state, action: PayloadAction<Difficulty>) => {
+      state.computerLevel = action.payload;
     },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setBoard, setPlayerSymbol, setWinPoints } =
+export const { setBoard, setPlayerSymbol, setPlayerMove, setComputerLevel } =
   gameSettingsSlice.actions;
 
 export default gameSettingsSlice.reducer;

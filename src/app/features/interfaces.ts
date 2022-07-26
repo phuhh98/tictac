@@ -11,24 +11,31 @@ export interface BoardDemension {
 
 export type WinPoints = 3 | 4 | 5;
 
+export enum Difficulty {
+  Easy = 'Easy',
+  Normal = 'Normal',
+  Hard = 'Hard',
+}
+
 export interface GameSettings {
   boardDemension: BoardDemension;
   player: CheckMarkValue;
   computer: CheckMarkValue;
-  winPoints: WinPoints;
+  computerLevel: Difficulty;
 }
 
-export interface WinLoose {
-  winCount: number;
-  looseCount: number;
+export interface WinCount {
+  player: number;
+  computer: number;
 }
 
 export type BoardValues = CheckMarkValue[][] | any[][];
 
 export interface GameStat {
   boardStat: BoardValues;
-  winLoose: WinLoose;
+  winCount: WinCount;
   playerMoveCount: number;
+  gameEnded: boolean;
 }
 
 export interface Move {

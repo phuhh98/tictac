@@ -3,11 +3,12 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 
 import {
   CheckMarkValue,
-  WinLoose,
+  WinCount,
   Move,
   BoardValues,
   GameStat,
 } from './interfaces';
+import { strictEqual } from 'assert';
 
 const EMPTY_BOARD: BoardValues = [
   [CheckMarkValue.null, CheckMarkValue.null, CheckMarkValue.null],
@@ -15,15 +16,16 @@ const EMPTY_BOARD: BoardValues = [
   [CheckMarkValue.null, CheckMarkValue.null, CheckMarkValue.null],
 ];
 
-const INIT_WIN_LOOSE: WinLoose = {
-  winCount: 0,
-  looseCount: 0,
+const INIT_WIN_LOOSE: WinCount = {
+  player: 0,
+  computer: 0,
 };
 
 const INITIAL_STATE: GameStat = {
   boardStat: EMPTY_BOARD,
-  winLoose: INIT_WIN_LOOSE,
+  winCount: INIT_WIN_LOOSE,
   playerMoveCount: 0,
+  gameEnded: false,
 };
 
 export const gameStatSlice = createSlice({
@@ -33,12 +35,14 @@ export const gameStatSlice = createSlice({
     resetGame: () => INITIAL_STATE,
     resetBoard: state => {
       state.boardStat = EMPTY_BOARD;
+      state.playerMoveCount = 0;
+      state.gameEnded = false;
     },
-    winIncrement: state => {
-      state.winLoose.winCount += 1;
+    playerWinIncrement: state => {
+      state.winCount.player += 1;
     },
-    looseIncrement: state => {
-      state.winLoose.looseCount += 1;
+    computerWinIncrement: state => {
+      state.winCount.computer += 1;
     },
     moveCountIncrement: state => {
       state.playerMoveCount += 1;
@@ -53,6 +57,9 @@ export const gameStatSlice = createSlice({
       }
       state.boardStat[x][y] = value;
     },
+    endGame: state => {
+      state.gameEnded = true;
+    },
   },
 });
 
@@ -61,9 +68,10 @@ export const {
   playerMakeMove,
   resetGame,
   resetBoard,
-  winIncrement,
+  playerWinIncrement,
   moveCountIncrement,
-  looseIncrement,
+  computerWinIncrement,
+  endGame,
 } = gameStatSlice.actions;
 
 export default gameStatSlice.reducer;
